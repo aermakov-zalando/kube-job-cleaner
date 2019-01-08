@@ -53,7 +53,7 @@ def container_finish_time(status):
 def termination_time(pod):
     pod_status = pod.obj['status']
     container_statuses = pod_status.get('initContainerStatuses', []) + pod_status.get('containerStatuses', [])
-    finish_times = filter(None, (container_finish_time(status) for status in container_statuses))
+    finish_times = list(filter(None, (container_finish_time(status) for status in container_statuses)))
     if not finish_times:
         return None
     return max(finish_times)
